@@ -1,4 +1,5 @@
 ---
+layout: post
 title: GOAD Home Lab
 date: 2025-01-15 00:34:00 +0800
 categories: [Active Directory, VMware, Home Lab,]
