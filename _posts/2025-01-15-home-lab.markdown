@@ -4,6 +4,7 @@ title: GOAD Home Lab
 date: 2025-01-15 00:34:00 +0800
 categories: [Active Directory, VMware, Home Lab,]
 tags: [GOT, AD]
+author: Klein András
 pin: true
 image:
   path: /images/images-ad/schema.png
