@@ -175,7 +175,7 @@ The domain controller will be configured using **Windows Server 2022**. Follow t
 
 ![b](/images/images-office/image32.png)
 ![b](/images/images-office/image33.png)
-![b](/images/images-office/image34.png)
+
 
 
 3. **Domain Login Setup**:
