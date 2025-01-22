@@ -1,0 +1,226 @@
+---
+layout: post
+title: Isolated Hyper-V pfSense Network
+date: 2025-01-22 00:34:00 +0800
+categories: [Network Setup, Firewall Rules, Hyper-V Configuration]
+tags: [LAN,ICMP,TCP Traffic,Alias,Firewall Rules,pfSense,Hyper-V]
+author: klein
+image:
+  path: /images/images-hypernet/image0.png
+  
+---
+
+# Configuration and Testing of a Hyper-V-Based Isolated Network Using Windows 10 and pfSense
+
+The purpose of the documentation is to demonstrate the configuration of a pfSense firewall operating in a Hyper-V environment, as well as the creation of a Windows 10-based virtual machine and its placement in an isolated network. In the network, traffic is routed through the firewall. In addition to the creation process, it also covers the setup of basic firewall rules, which provide fundamental knowledge for configuring the firewall.
+
+The purpose of the documentation is to implement this network, where certain parameters, such as IP addresses, may vary depending on the implementation environment:
+
+
+![b](/images/images-hypernet/image1.png)
+
+The requirements are to download the .iso file from the pfSense website (https://www.pfsense.org/download/). I tested it with versions 2.6 and 2.7, which worked flawlessly. Additionally, download Windows 10 from the evaluation center (https://www.microsoft.com/en-us/evalcenter/).
+
+Launch the Hyper-V Manager, then configure the network switches as shown in the images.
+
+
+![b](/images/images-hypernet/image2.png)
+![b](/images/images-hypernet/image3.png)
+![b](/images/images-hypernet/image4.png)
+![b](/images/images-hypernet/image5.png)
+![b](/images/images-hypernet/image6.png)
+![b](/images/images-hypernet/image7.png)
+![b](/images/images-hypernet/image8.png)
+
+Create a new virtual machine that will serve as the pfSense firewall in our network. Follow the steps shown in the images.
+
+![b](/images/images-hypernet/image9.png)
+![b](/images/images-hypernet/image10.png)
+![b](/images/images-hypernet/image11.png)
+![b](/images/images-hypernet/image12.png)
+![b](/images/images-hypernet/image13.png)
+![b](/images/images-hypernet/image14.png)
+![b](/images/images-hypernet/image15.png)
+![b](/images/images-hypernet/image16.png)
+![b](/images/images-hypernet/image17.png)
+![b](/images/images-hypernet/image18.png)
+![b](/images/images-hypernet/image19.png)
+![b](/images/images-hypernet/image20.png)
+
+Start the virtual machine and follow the steps shown. The Enter and arrow keys can be used to navigate the interface. In most cases, the default settings will be accepted.
+
+![b](/images/images-hypernet/image21.png)
+![b](/images/images-hypernet/image22.png)
+![b](/images/images-hypernet/image23.png)
+![b](/images/images-hypernet/image24.png)
+![b](/images/images-hypernet/image25.png)
+![b](/images/images-hypernet/image26.png)
+![b](/images/images-hypernet/image27.png)
+![b](/images/images-hypernet/image28.png)
+
+Use the Space key to select the virtual disk.
+
+
+![b](/images/images-hypernet/image29.png)
+![b](/images/images-hypernet/image30.png)
+![b](/images/images-hypernet/image31.png)
+![b](/images/images-hypernet/image32.png)
+![b](/images/images-hypernet/image33.png)
+![b](/images/images-hypernet/image34.png)
+![b](/images/images-hypernet/image35.png)
+![b](/images/images-hypernet/image36.png)
+![b](/images/images-hypernet/image37.png)
+![b](/images/images-hypernet/image38.png)
+![b](/images/images-hypernet/image39.png)
+![b](/images/images-hypernet/image40.png)
+![b](/images/images-hypernet/image41.png)
+![b](/images/images-hypernet/image42.png)
+![b](/images/images-hypernet/image43.png)
+![b](/images/images-hypernet/image44.png)
+![b](/images/images-hypernet/image45.png)
+![b](/images/images-hypernet/image46.png)
+![b](/images/images-hypernet/image47.png)
+![b](/images/images-hypernet/image48.png)
+![b](/images/images-hypernet/image49.png)
+![b](/images/images-hypernet/image50.png)
+![b](/images/images-hypernet/image51.png)
+![b](/images/images-hypernet/image52.png)
+![b](/images/images-hypernet/image53.png)
+![b](/images/images-hypernet/image54.png)
+![b](/images/images-hypernet/image55.png)
+![b](/images/images-hypernet/image56.png)
+![b](/images/images-hypernet/image57.png)
+![b](/images/images-hypernet/image58.png)
+![b](/images/images-hypernet/image59.png)
+![b](/images/images-hypernet/image60.png)
+![b](/images/images-hypernet/image61.png)
+
+Continuation of the configuration  
+After successfully configuring the firewall, we will create a new virtual machine, which will be a Windows 10 machine, and place it in the LAN network.
+
+![b](/images/images-hypernet/image62.png)
+![b](/images/images-hypernet/image63.png)
+![b](/images/images-hypernet/image64.png)
+![b](/images/images-hypernet/image65.png)
+![b](/images/images-hypernet/image66.png)
+![b](/images/images-hypernet/image67.png)
+![b](/images/images-hypernet/image68.png)
+![b](/images/images-hypernet/image69.png)
+![b](/images/images-hypernet/image70.png)
+![b](/images/images-hypernet/image71.png)
+![b](/images/images-hypernet/image72.png)
+![b](/images/images-hypernet/image73.png)
+![b](/images/images-hypernet/image74.png)
+![b](/images/images-hypernet/image75.png)
+![b](/images/images-hypernet/image76.png)
+![b](/images/images-hypernet/image77.png)
+![b](/images/images-hypernet/image78.png)
+![b](/images/images-hypernet/image79.png)
+![b](/images/images-hypernet/image80.png)
+![b](/images/images-hypernet/image81.png)
+![b](/images/images-hypernet/image82.png)
+![b](/images/images-hypernet/image83.png)
+![b](/images/images-hypernet/image84.png)
+![b](/images/images-hypernet/image85.png)
+![b](/images/images-hypernet/image86.png)
+![b](/images/images-hypernet/image87.png)
+![b](/images/images-hypernet/image88.png)
+![b](/images/images-hypernet/image89.png)
+![b](/images/images-hypernet/image90.png)
+![b](/images/images-hypernet/image91.png)
+![b](/images/images-hypernet/image92.png)
+![b](/images/images-hypernet/image93.png)
+![b](/images/images-hypernet/image94.png)
+![b](/images/images-hypernet/image95.png)
+![b](/images/images-hypernet/image96.png)
+![b](/images/images-hypernet/image97.png)
+![b](/images/images-hypernet/image98.png)
+![b](/images/images-hypernet/image99.png)
+![b](/images/images-hypernet/image100.png)
+![b](/images/images-hypernet/image101.png)
+![b](/images/images-hypernet/image102.png)
+![b](/images/images-hypernet/image103.png)
+![b](/images/images-hypernet/image104.png)
+![b](/images/images-hypernet/image105.png)
+![b](/images/images-hypernet/image106.png)
+
+## Firewall Rule Configuration
+
+Now that we have successfully built the virtual lab and configured the pfSense firewall, let us first understand what a firewall is before making any settings. Essentially, a firewall is a network device, most commonly located at the edge of the network, that permits or restricts traffic. The firewall's task is to control traffic by examining the source/destination IP address and the source/destination ports. Based on these examinations, administrators can set rules to allow or restrict traffic.
+
+For firewall rules, each rule is executed in sequence, meaning the firewall reads the rules from top to bottom. Depending on the configuration set in the firewall, access will be appropriately allowed or restricted. Generally, firewalls include an implicit "deny" rule as a default setting, meaning that all traffic is dropped by the system. For our approach during the exercise, we will block all traffic by default and create specific allow rules above the "deny" rule as exceptions.
+
+It is also advisable to create separators. Separators are useful because they allow you to divide your rules into different sections, making them more organized and easier to manage.
+
+
+![b](/images/images-hypernet/image107.png)
+![b](/images/images-hypernet/image108.png)
+![b](/images/images-hypernet/image109.png)
+
+### Create a firewall rule for the WAN interface.
+
+Add a rule that allows all traffic that arrives at my WAN IP address. If something connects to the firewall through the WAN IP address and one of the ports I want to allow, the traffic will be allowed through. (This can be very dangerous if allowed from the internet and is only useful in special cases, as we are on a private network, so we can disregard this.)
+
+
+![b](/images/images-hypernet/image110.png)
+![b](/images/images-hypernet/image111.png)
+![b](/images/images-hypernet/image112.png)
+![b](/images/images-hypernet/image113.png)
+
+Next, let's assume we want to ping the firewall. In this case, we need to create another rule to allow ICMP traffic, as we have only allowed TCP traffic so far. Let's create a firewall rule for ICMP traffic as well:
+
+![b](/images/images-hypernet/image114.png)
+![b](/images/images-hypernet/image115.png)
+![b](/images/images-hypernet/image116.png)
+
+At this point, we will have two rules: one that allows TCP traffic to the firewall, and the other that allows ICMP traffic.
+
+![b](/images/images-hypernet/image117.png)
+
+We can also create firewall aliases. An alias is a rule that we can reference within another rule, and we can add multiple different elements to an alias. We can add several different IP addresses or ports to an alias.
+
+![b](/images/images-hypernet/image118.png)
+![b](/images/images-hypernet/image119.png)
+![b](/images/images-hypernet/image120.png)
+![b](/images/images-hypernet/image121.png)
+![b](/images/images-hypernet/image122.png)
+![b](/images/images-hypernet/image123.png)
+![b](/images/images-hypernet/image124.png)
+![b](/images/images-hypernet/image125.png)
+
+If we navigate to the LAN section, we can see the basic rules that pfSense sets by default. There is an Anti-Lockout rule, which ensures that we can access the firewall from the LAN through the management ports, preventing us from accidentally locking ourselves out.  
+
+Next, two additional rules allow all outgoing access. By default, we can connect anywhere from the LAN. For the upcoming configuration, we will simply disable these rules.
+
+
+![b](/images/images-hypernet/image126.png)
+![b](/images/images-hypernet/image127.png)
+![b](/images/images-hypernet/image128.png)
+![b](/images/images-hypernet/image129.png)
+
+After these changes, the Windows machine will not have internet access.
+
+![b](/images/images-hypernet/image130.png)
+
+For organizational purposes, let's create a separator.
+
+![b](/images/images-hypernet/image131.png)
+
+Let's create the new firewall rules:
+
+![b](/images/images-hypernet/image132.png)
+
+First, let's fix the ICMP to be able to ping from the LAN network.
+
+![b](/images/images-hypernet/image133.png)
+![b](/images/images-hypernet/image134.png)
+![b](/images/images-hypernet/image135.png)
+
+Let's configure internet access, and for this, we will generally use aliases in this case as well.
+
+![b](/images/images-hypernet/image136.png)
+![b](/images/images-hypernet/image137.png)
+![b](/images/images-hypernet/image138.png)
+![b](/images/images-hypernet/image139.png)
+![b](/images/images-hypernet/image140.png)
+![b](/images/images-hypernet/image141.png)
