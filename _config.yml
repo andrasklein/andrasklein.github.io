@@ -14,9 +14,9 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: András Klein's IT Security Blog # the main title
+title: SecChronicle # the main title
 
-tagline: (it's not pretty but it's cool) # it will display as the subtitle
+tagline: (it's not pretty, but it's cool) # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.

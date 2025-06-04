@@ -2,13 +2,15 @@
 layout: post
 title: Isolated Hyper-V pfSense Network
 date: 2025-01-22 00:34:00 +0800
-categories: [Network Setup, Firewall Rules, Hyper-V Configuration]
+categories: [University]
 tags: [LAN,ICMP,TCP Traffic,Alias,Firewall Rules,pfSense,Hyper-V]
 author: klein
 image:
   path: /images/images-hypernet/image0.png
   
 ---
+**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
+
 
 # Configuration and Testing of a Hyper-V-Based Isolated Network Using Windows 10 and pfSense
 

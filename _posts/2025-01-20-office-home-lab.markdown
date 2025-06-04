@@ -2,13 +2,15 @@
 layout: post
 title: Building an Office Themed Home Lab
 date: 2025-01-20 00:34:00 +0800
-categories: [Active Directory, VMware, Home Lab,]
+categories: [University]
 tags: [Active Directory, Domain Controller, Group Policy, Windows Server, User Management]
 author: klein
 image:
   path: /images/images-office/image001.png
   
 ---
+**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
+
 
 # Active Directory Lab Build Documentation
 

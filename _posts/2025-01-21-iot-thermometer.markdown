@@ -2,13 +2,16 @@
 layout: post
 title: Building an IoT thermometer
 date: 2025-01-21 00:34:00 +0800
-categories: [IoT (Internet of Things), Home Automation, Environmental Monitoring, Electronics Projects]
+categories: [University]
 tags: [IoT Thermometer, ESP32, BME280, Temperature Monitoring]
 author: klein
 image:
   path: /images/images-IoT01/final.jpg
   
 ---
+**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
+
+
 
 Building an IoT thermometer was an exciting thing to do even if I knew nothing about how to build the board or write the code for it. 
 
