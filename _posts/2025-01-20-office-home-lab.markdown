@@ -2,7 +2,7 @@
 layout: post
 title: Building an Office Themed Home Lab
 date: 2025-01-20 00:34:00 +0800
-categories: [University]
+categories: [University, Home Lab]
 tags: [Active Directory, Domain Controller, Group Policy, Windows Server, User Management]
 author: klein
 image:

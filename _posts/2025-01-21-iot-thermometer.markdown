@@ -2,7 +2,7 @@
 layout: post
 title: Building an IoT thermometer
 date: 2025-01-21 00:34:00 +0800
-categories: [University]
+categories: [University, IoT]
 tags: [IoT Thermometer, ESP32, BME280, Temperature Monitoring]
 author: klein
 image:
