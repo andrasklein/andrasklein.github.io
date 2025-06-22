@@ -6,7 +6,7 @@ categories: [HackTheBox, Easy]
 tags: [Remote Code Execution,OS Command Injection,Misconfiguration,Command Execution,PHP,JavaScript]
 author: klein
 image:
-  path: /images/images-twomillion/image_42.png
+  path: /images/images-twomillion/image_40.png
   
 ---
 
