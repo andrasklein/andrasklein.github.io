@@ -6,7 +6,7 @@ categories: [HackTheBox, Easy]
 tags: [Remote Code Execution,OS Command Injection,Misconfiguration,Command Execution,PHP,JavaScript]
 author: klein
 image:
-  path: /images/images-twomillion/image_40.png
+  path: /images/images-twomillion/image_42.png
   
 ---
 
@@ -64,6 +64,8 @@ I found this function by opening up the developer tools and opening up the invit
 **The endpoint in makeInviteCode returns encrypted data. That message provides another endpoint to query. That endpoint returns a code value that is encoded with what very common binary-to-text encoding format. What is the name of that encoding?
 
 The function discloses the API endpoint.
+
+
 ![b](/images/images-twomillion/image_7.png)
 
 Let's query this endpoint with curl.
@@ -153,6 +155,8 @@ And I got a fully functional shell.
 What file is commonly used in PHP applications to store environment variable values?
 
 The *.env file.
+
+
 ![b](/images/images-twomillion/image_19.png)
 
 With these credentials, I can change to the admin user and find the user flag.
