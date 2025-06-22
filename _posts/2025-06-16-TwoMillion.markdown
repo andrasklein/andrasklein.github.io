@@ -3,10 +3,10 @@ layout: post
 title: TwoMillion
 date: 2025-06-16 00:34:00 +0800
 categories: [HackTheBox, Easy]
-tags: []
+tags: [Remote Code Execution,OS Command Injection,Misconfiguration,Command Execution,PHP,JavaScript]
 author: klein
 image:
-  path: /images/images-twomillion/image_39.png
+  path: /images/images-twomillion/image_40.png
   
 ---
 
