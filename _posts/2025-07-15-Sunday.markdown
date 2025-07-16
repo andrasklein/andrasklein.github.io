@@ -1,0 +1,27 @@
+---
+layout: post
+title: Sunday
+date: 2025-07-16 00:34:00 +0800
+categories: [HackTheBox, Easy]
+tags: [Web Application, Enterprise Network, Vulnerability Assessment, Protocols, Authentication]
+author: klein
+image:
+  path: /images/images-sunday/image_01.png
+  
+---
+
+This notes style walkthough is going to be conducted using the help of HackTheBox Guided Mode for this retired machine.
+
+
+##### Which open TCP port is running the finger service?
+
+This can be easily answered with an nmap scan:
+
+```bash
+nmap -sC -sV -vv -oN sunday $IP
+```
+
+![b](/images/images-sunday/image_02.png)
+
+
+To be continued... 
