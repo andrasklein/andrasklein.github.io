@@ -10,7 +10,7 @@ image:
   
 ---
 
-This notes style walkthough is going to be conducted using the help of HackTheBox Guided Mode for this retired machine.
+This notes-style walkthrough is going to be conducted using the help of HackTheBox Guided Mode for this retired machine.
 
 
 ##### Which open TCP port is running the finger service?
