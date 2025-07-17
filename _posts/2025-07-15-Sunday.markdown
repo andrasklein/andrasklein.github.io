@@ -23,5 +23,101 @@ nmap -sC -sV -vv -oN sunday $IP
 
 ![b](/images/images-sunday/image_02.png)
 
+###### How many users can be found by enumerating the finger service? Consider only users who shows a pts.
 
-To be continued... 
+I used a script from pentestmonkey named finger-user-enum.pl
+
+```bash
+# Clone the GitHub repo.
+git clone https://github.com/pentestmonkey/finger-user-enum.git
+
+cd finger-user-enum
+
+# Run the tool with a wordlist of choice.
+
+./finger-user-enum.pl -U /usr/share/seclists/Usernames/Names/names.txt -t 10.129.185.200 | less -S
+```
+
+This gave me a lot of usernames.
+
+![b](/images/images-sunday/image_03.png)
+
+Two of these usernames (sunny, sammy) show a pts.
+
+###### What is the password for the sunny user on Sunday?
+
+For this question to be answered, I had to find a port that would allow for authentication.
+
+```bash
+nmap -p- -vvvv $IP --max-retries 0
+
+nmap -sC -sV -p 79,111,515,6787,22022 $IP
+```
+
+This showed me that port 22022 is ssh, which is going to serve as our way of getting in.
+
+![b](/images/images-sunday/image_04.png)
+
+We have two usernames and a target service; let's start brute forcing.
+
+Since this is an older version of SSH, I am going to use a tool named patator.
+
+```bash
+patator ssh_login host=10.129.185.200 port=22022 user=sunny password=FILE0 0=/usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt persistent=0
+```
+![b](/images/images-sunday/image_05.png)
+
+Side note: Especially on older HackTheBox machines, it's always a good idea to try the name of the box as a password.
+
+###### What is the password for user sammy on the box?
+
+There is going to be a file on the box named shadow.backup, which is going to contain the password hash for the user Sammy.
+
+![b](/images/images-sunday/image_06.png)
+
+Let's crack this hash.
+
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+```
+![b](/images/images-sunday/image_07.png)
+
+From here, just change to the user sammy, and you can get the user flag.
+
+###### What is the full path of the binary that user sunny can run with sudo privileges?
+
+Just run sudo -l.
+
+![b](/images/images-sunday/image_08.png)
+
+###### What is the complete path of the binary that user sammy can run with sudo privileges?
+
+Just do the same thing (sudo -l) after changing to sammy.
+
+By going to gtfobins: https://gtfobins.github.io/gtfobins/wget/#sudo
+
+There is an easy way to escalate privileges:
+
+![b](/images/images-sunday/image_09.png)
+
+###### While overwriting the troll binary is the intended way to get access as root, there are many other ways to abuse wget. The following questions will hint at some of those. What flag option for wget allows the user to specify a file of URLs to fetch? Give the long form of the flag.
+
+```bash
+wget -h
+```
+
+![b](/images/images-sunday/image_10.png)
+
+
+###### What is the wget flag to send a file as the body of a POST request?
+
+![b](/images/images-sunday/image_11.png)
+
+
+###### What is the full path to the file that is used to configure sudo, and what commands each user can run?
+
+```bash
+man sudo
+```
+
+![b](/images/images-sunday/image_12.png)
