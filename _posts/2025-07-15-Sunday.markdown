@@ -98,7 +98,6 @@ By going to gtfobins: https://gtfobins.github.io/gtfobins/wget/#sudo
 
 There is an easy way to escalate privileges:
 
-
 ![b](/images/images-sunday/image_09.png)
 
 
