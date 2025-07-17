@@ -86,7 +86,7 @@ From here, just change to the user sammy, and you can get the user flag.
 
 ###### What is the full path of the binary that user sunny can run with sudo privileges?
 
-Just run sudo -l.
+Just run the sudo -l command.
 
 ![b](/images/images-sunday/image_08.png)
 
@@ -98,7 +98,9 @@ By going to gtfobins: https://gtfobins.github.io/gtfobins/wget/#sudo
 
 There is an easy way to escalate privileges:
 
+
 ![b](/images/images-sunday/image_09.png)
+
 
 ###### While overwriting the troll binary is the intended way to get access as root, there are many other ways to abuse wget. The following questions will hint at some of those. What flag option for wget allows the user to specify a file of URLs to fetch? Give the long form of the flag.
 
@@ -110,6 +112,7 @@ wget -h
 
 
 ###### What is the wget flag to send a file as the body of a POST request?
+
 
 ![b](/images/images-sunday/image_11.png)
 
