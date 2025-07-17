@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Sunday
-date: 2025-07-16 00:34:00 +0800
+date: 2025-07-16 01:34:00 +0800
 categories: [HackTheBox, Easy]
-tags: [Web Application, Enterprise Network, Vulnerability Assessment, Protocols, Authentication]
+tags: [Finger, Enterprise Network, Vulnerability Assessment, Protocols, Authentication]
 author: klein
 image:
   path: /images/images-sunday/image_01.png
