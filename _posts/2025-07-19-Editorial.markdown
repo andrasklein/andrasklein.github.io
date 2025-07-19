@@ -10,6 +10,8 @@ image:
   
 ---
 
+This notes-style walkthrough will be conducted using HackTheBox Guided Mode for this retired machine.
+
 ### How many TCP ports are listening on Editorial?
 
 ```bash
