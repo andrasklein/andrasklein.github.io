@@ -1,0 +1,46 @@
+---
+layout: post
+title: Sau
+date: 2025-07-15 02:34:00 +0800
+categories: [HackTheBox, Easy]
+tags: [Vulnerability Assessment, Enterprise Network, Default Credentials, Weak Permissions]
+author: klein
+image:
+  path: /images/images-sau/image_04.png
+  
+---
+
+This notes-style walkthrough is going to be conducted using the help of HackTheBox Guided Mode for this retired machine.
+
+###### Which is the highest open TCP port on the target machine?
+
+Start off with an Nmap scan to find out this information.
+
+```bash
+nmap -sC -sV -vv -oN sau 10.129.229.26
+```
+
+![b](/images/images-sau/image_01.png)
+
+###### What is the name of the open source software that the application on 55555 is "powered by"?
+
+By going to the web page we can find out the software that powers this application.
+
+![b](/images/images-sau/image_02.png)
+
+###### What is the version of request-baskets running on Sau?
+
+As can be seen from the previous image the version number is 1.2.1
+
+###### What is the 2023 CVE ID for a Server-Side Request Forgery (SSRF) in this version of request-baskets?
+
+Just do a quick Google search.
+
+```
+request-baskets 1.2.1 exploit
+```
+
+![b](/images/images-sau/image_03.png)
+
+###### What is the name of the software that the application running on port 80 is "powered by"?
+
