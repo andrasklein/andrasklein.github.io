@@ -196,7 +196,7 @@ curl http://editorial.htb/static/uploads/4d14f540-f80d-44c9-b503-7ec13bc7e794 | 
 
 ```
 
-###### Which relative API endpoint returns a template that includes a default username and password?
+### Which relative API endpoint returns a template that includes a default username and password?
 
 
 ![b](/images/images-editorial/image_06.png)
@@ -215,25 +215,25 @@ curl http://editorial.htb/static/uploads/4d14f540-f80d-44c9-b503-7ec13bc7e794 | 
 
 These credentials will work for SSH. Now we are in!
 
-###### What is the full path to the directory that contains a git repo but all the files have been deleted?
+### What is the full path to the directory that contains a git repo but all the files have been deleted?
 
 &nbsp;
 
 The directory that we land in will contain a .git directory. (/home/dev/apps) 
 
-###### What is the prod user's password on Editorial?
+### What is the prod user's password on Editorial?
 
 By looking at the commit changes, we will find some deleted credentials.
 
 
 ![b](/images/images-editorial/image_07.png)
 
-###### What is the name of the Python script that the prod user can run as root after entering their password?
+### What is the name of the Python script that the prod user can run as root after entering their password?
 
 
 ![b](/images/images-editorial/image_08.png)
 
-###### What is name of the Python library used by clone_prod_changes.py to interact with Git repos?
+### What is name of the Python library used by clone_prod_changes.py to interact with Git repos?
 
 
 ![b](/images/images-editorial/image_09.png)
@@ -244,7 +244,7 @@ A quick Google search is going to reveal the answer.
 
 ![b](/images/images-editorial/image_10.png)
 
-###### What version of GitPython is installed on Editorial?
+### What version of GitPython is installed on Editorial?
 
 ```bash
 pip freeze
@@ -254,7 +254,7 @@ pip freeze
 
 ![b](/images/images-editorial/image_11.png)
 
-###### What is the 2022 CVE ID for a command execution vulnerability in this version of GitPython?
+### What is the 2022 CVE ID for a command execution vulnerability in this version of GitPython?
 
 A quick Google search will show the answer to this question.
 
