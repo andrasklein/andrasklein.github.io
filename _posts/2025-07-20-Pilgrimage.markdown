@@ -9,6 +9,8 @@ image:
   path: /images/images-pilgrimage/image_11.png
 ---
 
+This notes-style walkthrough will be conducted using HackTheBox Guided Mode for this retired machine.
+
 ### Which version of nginx does the target machine run on TCP port 80?
 
 This can be enumerated with the help of an Nmap scan. 
