@@ -3,7 +3,7 @@ layout: post
 title: Titanic
 date: 2025-06-22 00:34:00 +0800
 categories: [HackTheBox, Easy]
-tags: [Linux,Apache,Gitea,Docker,magick,CVE-2024-41817]
+tags: [Linux,Apache,Gitea,Docker,magic,CVE-2024-41817]
 author: klein
 image:
   path: /images/images-titanic/image_25.png
