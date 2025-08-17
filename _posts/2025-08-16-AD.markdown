@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Active Directory HandBook"
-date: 2025-07-27 15:34:00 +0800
+date: 2025-08-17 15:34:00 +0800
 categories: [HandBook, AD]
 tags: [LLMNR, SMB Relay, IPv6, Passback Attack, BloodHound, Ldapdomaindump, PlumHound, Pass Attacks, Kerberoasting, Token Impersonation, LNK File Attack, GPP, Mimikatz, NTDS.dit, Golden Ticket, ZeroLogon, PrintNightmare]
 author: klein
