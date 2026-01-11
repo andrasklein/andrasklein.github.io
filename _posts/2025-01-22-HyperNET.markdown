@@ -9,7 +9,7 @@ image:
   path: /images/images-hypernet/image0.png
   
 ---
-**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
+**In this post, the text of the images can appear in Hungarian, because the material was part of projects that I used to teach for fellow Hungarians. If you can not fully follow the steps or the tutorial, I hope you got at least some inspiration.**
 
 
 # Configuration and Testing of a Hyper-V-Based Isolated Network Using Windows 10 and pfSense

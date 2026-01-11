@@ -9,9 +9,6 @@ image:
   path: /images/images-office/image001.png
   
 ---
-**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
-
-
 # Active Directory Lab Build Documentation
 
 ## Lab Requirements

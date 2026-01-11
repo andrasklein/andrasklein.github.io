@@ -9,9 +9,6 @@ image:
   path: /images/images-IoT01/final.jpg
   
 ---
-**This post contains material that I used to teach or for a project at my university. As a result, the text of the images can appear in Hungarian, but I have translated it into English.**
-
-
 
 Building an IoT thermometer was an exciting thing to do even if I knew nothing about how to build the board or write the code for it. 
 
