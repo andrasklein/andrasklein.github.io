@@ -38,7 +38,10 @@ Next on your device, you should see the palera1n application.
 
 
 Install Sileo package manager.
+
+
 ![b](/images/images-palera1n/Pasted_image_20260119193056.png)
+
 
 Make sure that the following repository is added on the sources tab:
 
@@ -66,7 +69,7 @@ Inside the “TrollStore” application, click on “Settings” and tap on “I
 ![b](/images/images-palera1n/Pasted_image_20260119194027.png)
 ![b](/images/images-palera1n/Pasted_image_20260119194104.png)
 
-Click on “Tips”
+Click on “Tips”.
 
 ![b](/images/images-palera1n/Pasted_image_20260119194150.png)
 
