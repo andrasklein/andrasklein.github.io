@@ -3,6 +3,6 @@
 icon: fas fa-info-circle
 order: 4
 ---
-I started this blog to share how I learn and improve constantly every day and also to make a portfolio about the things that keep me interested.
+This blog is a collection of articles that sum up a few of the projects that I work on, or used to work on. Hope you get some inspiration, or you can take something away at least.
 
-Throughout my development, I have been driven by curiosity and a desire to get a better understanding of how things work. I also enjoy building home labs where I can study and practice anything that I learn along my journey. Thank you for reading and visiting my blog!
+Thank you for reading and visiting!
