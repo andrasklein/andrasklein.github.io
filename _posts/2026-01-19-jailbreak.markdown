@@ -35,12 +35,14 @@ Next on your device, you should see the palera1n application.
 
 ![b](/images/images-palera1n/Pasted_image_20260119193003.png)
 
+
+
 Install Sileo package manager.
 ![b](/images/images-palera1n/Pasted_image_20260119193056.png)
 
 Make sure that the following repository is added on the sources tab:
 
-https://ellekit.space/
+> https://ellekit.space/
 
 ![b](/images/images-palera1n/Pasted_image_20260119193616.png)
 
@@ -106,8 +108,13 @@ After downloading, head into the TrollStore application.
 
 Click on the “+” sign. And the choose .ipa file.
 
+
 ![b](/images/images-palera1n/Pasted_image_20260119202640.png)
+
+
 ![b](/images/images-palera1n/Pasted_image_20260119202701.png)
+
+
 
 Next, choose the .tipa file that you just downloaded from GitHub. And proceed with “Install”.
 
