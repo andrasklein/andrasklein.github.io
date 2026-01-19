@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Jailbreaking iPhone X 16.7.12 with Palera1n-RootHide
+title: "Jailbreaking iPhone X 16.7.12 with Palera1n-RootHide"
 date: 2026-01-19 00:00:00 +0800
 categories: [iOS, Jailbreak]
 tags: [iPhoneX, iOS16, Palera1n, RootHide, Dopamine, TrollStore]
 author: klein
 image:
-  path: /images/images-palera1n/cover.png
+    path: /images/images-palera1n/cover.png
 ---
 
 As I searched for this topic, I was unable to find a comprehensive tutorial on how to jailbreak your iPhone X with version 16.7.12, specifically for the Dopamine jailbreak with RootHide.
