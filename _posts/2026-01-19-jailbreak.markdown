@@ -13,7 +13,7 @@ As I searched for this topic, I was unable to find a comprehensive tutorial on h
 
 It's an important detail that this guide already assumes you know the basics of jailbreaking and does not delve into the theoretical aspects; it does not explore the why. This is more of a how-to-do-it blog. (Although I would love to write about the "why" part of it as well.)
 
-This is a brief guide that compiles publicly available information. My purpose with this article is to help those who might need to configure this for an assessment and want to save some time by not having to do deeper research.
+ My purpose with this article is to help those who might need to configure this for an assessment and want to save some time by not having to do deeper research.
 
 You will find the information that the Dopamine jailbreak is good up to iOS 16.6.1*, so with 16.7.12 this is sadly not an option.
 ![b](/images/images-palera1n/Pasted_image_20260118211808.png)
